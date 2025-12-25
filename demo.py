@@ -4,7 +4,6 @@ import time
 import math
 import collections
 import traceback
-
 import cv2
 import numpy as np
 from PIL import Image, ImageSequence
@@ -13,12 +12,12 @@ from dotenv import load_dotenv
 load_dotenv()
 from config import Config
 
-# ----------------- Utilities / GIF loader / Emote player -----------------
+
 def pil_to_cv2_rgba(pil_img):
     if pil_img.mode != "RGBA":
         pil_img = pil_img.convert("RGBA")
     arr = np.array(pil_img)
-    arr = arr[:, :, [2, 1, 0, 3]]  # RGBA -> BGRA
+    arr = arr[:, :, [2, 1, 0, 3]]  
     return arr
 
 def load_animated_emote(path, size=None, max_frames=None):
@@ -94,7 +93,7 @@ def overlay_rgba(bg, fg_rgba, x, y, scale=1.0):
         bg[y1:y2, x1:x2, c] = (1.0 - a) * bg_region[:, :, c] + a * fg_region[:, :, c]
     return bg
 
-# ----------------- MediaPipe setup -----------------
+#MediaPipe setup 
 try:
     import mediapipe as mp
 except Exception as e:
@@ -111,7 +110,7 @@ hands_detector = mp_hands.Hands(static_image_mode=False, max_num_hands=2,
 face_detector = mp_face.FaceMesh(max_num_faces=1, refine_landmarks=True,
                                  min_detection_confidence=0.5, min_tracking_confidence=0.5)
 
-# ----------------- Load emote assets -----------------
+#Emote assets
 EMOTE_SIZE = (220, 220)
 asset_dir = getattr(Config, "EMOTE_ASSETS", "src/assets/emotes")
 
@@ -132,7 +131,7 @@ for k, p in emote_files.items():
         EMOTE_PLAYERS[k] = None
         print(f"[WARN] Emote missing or failed to load: {p}")
 
-# ----------------- Gesture detection helpers & state -----------------
+#Gesture helpers
 BUFFER_LEN = 12
 left_wx = collections.deque(maxlen=BUFFER_LEN)
 right_wx = collections.deque(maxlen=BUFFER_LEN)
@@ -187,7 +186,7 @@ def thumb_up_pose(hand_lm):
     except Exception:
         return False
 
-# Initialize last_goblin_metrics safely
+# This is put up this way because my code was unable to recogonize this perticular emote so I put it very discriptively
 last_goblin_metrics = {"d_left": None, "d_right": None, "lf": None, "rf": None, "face_w": None, "prox_thr": None}
 
 def detect_goblin_by_fists(face_landmarks, hand_landmarks_list):
@@ -315,10 +314,10 @@ def single_frame_guess(face_landmarks, hand_landmarks_list):
         if ok:
             return "goblin_crying"
     except Exception:
-        # keep prior metrics but avoid crash
+        # keep prior metrics but to avoid crash
         traceback.print_exc()
 
-    # wizard juggling detection (alternating wrists)
+    # wizard juggling 
     if len(hands) >= 2:
         try:
             xs = [h.landmark[IDX["wrist"]].x for h in hands[:2]]
@@ -347,7 +346,7 @@ def stable_gesture(candidate):
         return "neutral"
     return None
 
-# ----------------- Robust main loop with camera retry -----------------
+
 def open_camera_with_retry(idx, retries=3, delay=0.5):
     for attempt in range(1, retries + 1):
         print(f"[camera] Opening index {idx} (attempt {attempt})")
@@ -420,7 +419,7 @@ def main_loop():
                     if p:
                         p.reset()
 
-                # draw face/hand landmarks for debugging
+                
                 if face_lms:
                     mp_drawing.draw_landmarks(
                         frame,
@@ -506,3 +505,4 @@ def main_loop():
 
 if __name__ == "__main__":
     main_loop()
+
