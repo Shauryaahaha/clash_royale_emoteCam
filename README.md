@@ -1,5 +1,25 @@
-# clash_royale_emoteCam
-This is a project which mixes my interest in Clash Royale, which is a Hybrid Real Time Strategy game, and my python skills.   
-This project detects hand and facial gestures in real time using a webcam and maps them to animated emotes, providing stable and responsive visual feedback during live interaction.    
-I built this project using Python for real-time processing, OpenCV for webcam capture and visual overlays, and MediaPipe (Hands and Face Mesh) for hand and facial landmark detection. NumPy was used for numerical computations and motion analysis, while Pillow (PIL) handled animated GIF decoding. The system incorporates temporal smoothing, rule based gesture recognition using geometric and velocity based heuristics, and a low-latency real time pipeline with robust camera handling.
-Feel free to play around with it :)
+# Clash Emote Vision - Prototype
+
+## Setup (Windows)
+1. Create venv:
+python -m venv venv
+
+2. Activate (PowerShell):
+.\venv\Scripts\Activate.ps1
+
+3. Upgrade pip and install:
+python -m pip install --upgrade pip setuptools wheel
+pip install -r requirements.txt
+
+*If `pip install mediapipe` fails, see README fallback section.*
+
+4. Ensure `.env` exists (we provided one). Put emote PNGs in `src/assets/emotes/`.
+
+5. Run:
+python check_env.py
+python demo.py
+
+## Fallback
+If MediaPipe cannot be installed on your machine (common with some Python versions or 32-bit installs), either:
+- Install 64-bit Python 3.10 and recreate venv (recommended), **or**
+- Use the OpenCV-only fallback (see README for instructions).
