@@ -1,4 +1,3 @@
-# config.py
 import os
 from dotenv import load_dotenv
 
@@ -16,3 +15,4 @@ class Config:
     DEBUG = os.getenv("DEBUG", "False").lower() in ("1","true","yes")
     LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
     SAVE_DEBUG_VIDEOS = os.getenv("SAVE_DEBUG_VIDEOS", "False").lower() in ("1","true","yes")
+
