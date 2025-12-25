@@ -2,3 +2,4 @@
 This is a project which mixes my interest in Clash Royale, which is a Hybrid Real Time Strategy game, and my python skills.   
 This project detects hand and facial gestures in real time using a webcam and maps them to animated emotes, providing stable and responsive visual feedback during live interaction.    
 I built this project using Python for real-time processing, OpenCV for webcam capture and visual overlays, and MediaPipe (Hands and Face Mesh) for hand and facial landmark detection. NumPy was used for numerical computations and motion analysis, while Pillow (PIL) handled animated GIF decoding. The system incorporates temporal smoothing, rule based gesture recognition using geometric and velocity based heuristics, and a low-latency real time pipeline with robust camera handling.
+Feel free to play around with it :)
